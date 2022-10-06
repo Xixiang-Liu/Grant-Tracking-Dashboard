@@ -11,5 +11,15 @@ const db = new sqlite3.Database('./transactions.db', sqlite3.OPEN_READWRITE, (er
 });
 
 // create the table
+sql = `CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY,
+    first_name,
+    last_name
+)`;
+db.run(sql);
 
+/*
 // drop the table
+sql = `DROP TABLE transactions`;
+db.run(sql);
+*/
