@@ -61,4 +61,18 @@ function update(date, vendor, amount, category, account, program, account_group,
     );
 }
 
-module.exports = {insert, update};
+// remove an existing transaction by id
+function remove_by_id(transaction_id) {
+    sql = `DELETE FROM transactions 
+           WHERE transaction_id = ?`;
+
+    db.run(
+        sql, 
+        [transaction_id],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+module.exports = {insert, update, remove_by_id};
