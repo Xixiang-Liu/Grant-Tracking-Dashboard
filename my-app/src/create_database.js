@@ -11,10 +11,18 @@ const db = new sqlite3.Database('./transactions.db', sqlite3.OPEN_READWRITE, (er
 });
 
 // create the table
+// note: for convenience, for column names are undercased.
 sql = `CREATE TABLE transactions (
-    id INTEGER PRIMARY KEY,
-    first_name,
-    last_name
+    transaction_id INTEGER NOT NULL PRIMARY KEY,
+    date TEXT,
+    vendor TEXT,
+    amount REAL,
+    category TEXT,
+    account TEXT,
+    program TEXT,
+    account_group TEXT,
+    budget REAL,
+    description TEXT
 )`;
 db.run(sql);
 
