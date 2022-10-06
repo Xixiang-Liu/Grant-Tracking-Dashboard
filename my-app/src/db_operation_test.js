@@ -13,6 +13,7 @@ op_file.insert(Date('now'),
                );
 */
 
+/*
 op_file.update(Date('now'), 
                "vendor_2_test", 
                4.5, 
@@ -24,3 +25,6 @@ op_file.update(Date('now'),
                "description_test",
                // transaction_id
                1);
+*/
+
+op_file.remove_by_id(2);
