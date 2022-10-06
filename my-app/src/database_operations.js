@@ -75,4 +75,93 @@ function remove_by_id(transaction_id) {
     );
 }
 
-module.exports = {insert, update, remove_by_id};
+// remove an existing transaction by date
+function remove_by_date(date) {
+    sql = `DELETE FROM transactions 
+           WHERE date = ?`;
+
+    db.run(
+        sql, 
+        [date],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+// remove an existing transaction by program
+function remove_by_program(program) {
+    sql = `DELETE FROM transactions 
+           WHERE program = ?`;
+
+    db.run(
+        sql, 
+        [program],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+// remove an existing transaction by category
+function remove_by_category(category) {
+    sql = `DELETE FROM transactions 
+           WHERE category = ?`;
+
+    db.run(
+        sql, 
+        [category],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+// remove an existing transaction by vendor
+function remove_by_vendor(vendor) {
+    sql = `DELETE FROM transactions 
+           WHERE vendor = ?`;
+
+    db.run(
+        sql, 
+        [vendor],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+// remove an existing transaction by account
+function remove_by_account(account) {
+    sql = `DELETE FROM transactions 
+           WHERE account = ?`;
+
+    db.run(
+        sql, 
+        [account],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+// remove an existing transaction by account_group
+function remove_by_account_group(account_group) {
+    sql = `DELETE FROM transactions 
+           WHERE account_group = ?`;
+
+    db.run(
+        sql, 
+        [account_group],
+        (err) => {
+            if (err) return console.error(err.message);
+        } 
+    );
+}
+
+module.exports = {
+    insert, 
+    update, 
+    remove_by_id, remove_by_date, remove_by_category, remove_by_program, 
+    remove_by_account, remove_by_account_group, remove_by_vendor
+};

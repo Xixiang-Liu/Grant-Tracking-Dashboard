@@ -1,7 +1,7 @@
 let op_file = require("./database_operations");
 
 /*
-op_file.insert(Date('now'), 
+op_file.insert("2001-08-07", 
                "vendor_2_test", 
                3.2, 
                "category_test", 
@@ -27,4 +27,8 @@ op_file.update(Date('now'),
                1);
 */
 
-op_file.remove_by_id(2);
+//op_file.remove_by_id(2);
+
+//op_file.remove_by_program("program_test");
+
+op_file.remove_by_date("2001-08-07");
