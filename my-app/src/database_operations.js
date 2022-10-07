@@ -159,9 +159,124 @@ function remove_by_account_group(account_group) {
     );
 }
 
+// look for transactions fitting the condition
+function query(transaction_id, date, vendor, amount, category, account, program, account_group, budget, description) {
+    // use string concatenation to make the sql query
+    sql = `SELECT * FROM transactions`;
+    var have_condition = false;
+    var condition_num = 0;
+    var condition = ` WHERE (`;
+    var args = [];
+
+    if (transaction_id != -1) {
+        have_condition = true;
+        condition_num++;
+        condition += `transaction_id`;
+        args.push(transaction_id);
+    }
+    if (date != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `date`;
+        args.push(date);
+    }
+    if (vendor != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `vendor`;
+        args.push(vendor);
+    }
+    if (amount != -1) {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `amount`;
+        args.push(amount);
+    }
+    if (category != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `category`;
+        args.push(category);
+    }
+    if (account != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `account`;
+        args.push(account);
+    }
+    if (program != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `program`;
+        args.push(program);
+    }
+    if (account_group != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `account_group`;
+        args.push(account_group);
+    }
+    if (budget != -1) {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `budget`;
+        args.push(budget);
+    }
+    if (description != "*") {
+        if (have_condition)
+            condition += `, `;
+        else
+            have_condition = true;
+        condition_num++;
+        condition += `description`;
+        args.push(description);
+    }
+
+    // if have condition, then complete the sql
+    if (have_condition) {
+        condition += `) = (?`;
+        for (let i = 0; i < condition_num - 1; i++)
+            condition += `, ?`;
+        condition += `)`
+        sql += condition;
+    }
+
+    return new Promise((resolve) => {
+        db.all(sql, args, (err, rows) => {
+            if (err) console.error(err.message);
+            resolve(rows);
+        });
+    });
+}
+
 module.exports = {
     insert, 
     update, 
     remove_by_id, remove_by_date, remove_by_category, remove_by_program, 
-    remove_by_account, remove_by_account_group, remove_by_vendor
+    remove_by_account, remove_by_account_group, remove_by_vendor,
+    query
 };
