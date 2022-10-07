@@ -36,7 +36,7 @@ op_file.update(Date('now'),
 // query
 // if no condition on a parameter, set it to -1 (for number) or "*" (for text)
 // due to javascript design, the return value (the transactions fit the condition) is "rows" below
-query(
+op_file.query(
     -1, // transaction_id
     "2064-08-07", // date 
     "*", // vendor
