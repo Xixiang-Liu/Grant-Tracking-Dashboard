@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { nanoid } from "nanoid";
-import data from "./mock-data.json";
-import ReadOnlyRow from "./components/ReadOnlyRow";
-import EditableRow from "./components/EditableRow";
+import data from "../mock-data.json";
+import ReadOnlyRow from "../components/ReadOnlyRow";
+import EditableRow from "../components/EditableRow";
 
 const Edit = () => {
   const [records, setRecords] = useState(data);
