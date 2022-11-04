@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Upload from "./pages/Upload";
 import Edit from './pages/Edit';
+
   
 function App() {
   return (

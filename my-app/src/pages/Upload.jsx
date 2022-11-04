@@ -38,6 +38,7 @@ function Upload() {
       }
   };
   const handleParse = () => {
+       //!!!!!!!!CHANGE TO API PASSING CSV FILE TO DB!!!!
        
       // If user clicks the parse button without
       // a file we show a error
