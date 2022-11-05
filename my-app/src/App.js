@@ -11,14 +11,20 @@ import About from "./pages/About";
 import Upload from "./pages/Upload";
 import Edit from './pages/Edit';
 import Login from './pages/Login';
+import isSubmitting from './pages/Login';
 
-  
 function App() {
+  if(isSubmitting){
+    return <Login />
+  }
+  else
   return (
+    
     <div className="App">
       <Router>
         
         <div className="container">
+          
         <Navbar />
         <Routes>
             <Route path="/Home" element={<Home />} />
@@ -31,6 +37,7 @@ function App() {
         
       </Router>
     </div>
+    
   );
 }
   
