@@ -1,80 +1,90 @@
+import React, { useState, useEffect } from "react";
 
-import React, { useState } from "react";
+const Login = () => {
+  const intialValues = { email: "", password: "" };
 
-import Form from "react-bootstrap/Form";
+  const [formValues, setFormValues] = useState(intialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-import Button from "react-bootstrap/Button";
+  const submit = () => {
+    console.log(formValues);
+  };
 
-import "./Login.css";
+  //input change handler
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
 
-export default function Login() {
+  //form submission handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
 
-  const [email, setEmail] = useState("");
+  //form validation handler
+  const validate = (values) => {
+    let errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
-  const [password, setPassword] = useState("");
+    if (!values.email) {
+      errors.email = "Cannot be blank";
+    } else if (!regex.test(values.email)) {
+      errors.email = "Invalid email format";
+    }
 
-  function validateForm() {
+    if (!values.password) {
+      errors.password = "Cannot be blank";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    }
 
-    return email.length > 0 && password.length > 0;
+    return errors;
+  };
 
-  }
-
-  function handleSubmit(event) {
-
-    event.preventDefault();
-
-  }
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmitting) {
+      submit();
+    }
+  }, [formErrors]);
 
   return (
-
-    <div className="Login">
-
-      <Form onSubmit={handleSubmit}>
-
-        <Form.Group size="lg" controlId="email">
-
-          <Form.Label>Email</Form.Label>
-
-          <Form.Control
-
-            autoFocus
-
+    <div>
+      <h1>Sign in to continue</h1>
+      {Object.keys(formErrors).length === 0 && isSubmitting && (
+        <span>Form submitted successfully</span>
+      )}
+      <form onSubmit={handleSubmit} noValidate>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
             type="email"
-
-            value={email}
-
-            onChange={(e) => setEmail(e.target.value)}
-
+            name="email"
+            id="email"
+            value={formValues.email}
+            onChange={handleChange}
           />
+          {formErrors.email && <span>{formErrors.email}</span>}
+        </div>
 
-        </Form.Group>
-
-        <Form.Group size="lg" controlId="password">
-
-          <Form.Label>Password</Form.Label>
-
-          <Form.Control
-
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
             type="password"
-
-            value={password}
-
-            onChange={(e) => setPassword(e.target.value)}
-
+            name="password"
+            id="password"
+            value={formValues.password}
+            onChange={handleChange}
           />
+          {formErrors.password && <span>{formErrors.password}</span>}
+        </div>
 
-        </Form.Group>
-
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
-
-          Login
-
-        </Button>
-
-      </Form>
-
+        <button type="submit">Sign In</button>
+      </form>
     </div>
-
   );
+};
 
-}
+export default Login;

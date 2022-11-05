@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Upload from "./pages/Upload";
 import Edit from './pages/Edit';
+import Login from './pages/Login';
 
   
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/About" element={<About />} />
             <Route path="/Edit" element={<Edit />} />
             <Route path="/Upload" element={<Upload />} />
+            <Route path="/Login" element={<Login />} />
         </Routes>
         </div>
         
