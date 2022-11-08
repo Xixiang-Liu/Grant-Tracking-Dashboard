@@ -1,5 +1,5 @@
 // the url for my database on planetscale
-DATABASE_URL='mysql://wq7ze3yylpob237bz1xi:pscale_pw_cIe5yy8VtcFCCUcUyVksF3P39v9YXr9cNS5OzBQINMK@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
+DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
 
 // require needed stuffs
 require('dotenv').config()
