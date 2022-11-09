@@ -138,7 +138,7 @@ app.post('/update',(req,res)=>{
 
 // delete a row
 // according to the id
-app.delete('/api/delete/:id',(req,res)=>{
+app.delete('/delete/:id',(req,res)=>{
   const id = req.params.id;
 
   // define query
