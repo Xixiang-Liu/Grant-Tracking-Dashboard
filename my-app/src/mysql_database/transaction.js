@@ -1,4 +1,4 @@
-class transaction {
+class Transaction {
     constructor (id, date, vendor, amount, category, account, program, account_group, budget, description) {
         this.id = id
         this.date = date
@@ -13,4 +13,4 @@ class transaction {
     }
 }
 
-module.exports = transaction
+module.exports = Transaction
