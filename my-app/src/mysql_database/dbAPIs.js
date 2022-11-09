@@ -11,19 +11,72 @@ app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
+
 // get all data from the table
-app.get("/READ", (req,res)=>{
+app.get("/read", (req,res)=>{
+  
   const sql = "SELECT * FROM transactions"
+  
   connection.query(sql, (err, result) => {
     if (err) {
       console.log(err)
     } 
     res.send(result)
-  });   
-});
+  })
+})
+
 
 // insert a row into the table
+app.post('/insert', (req,res)=> {
 
+  // grab all the variables
+  const id = req.body.id
+  const date = req.body.date
+  const vendor = req.body.vendor
+  const amount = req.body.amount
+  const category = req.body.category
+  const account = req.body.account
+  const program = req.body.program
+  const account_group = req.body.account_group
+  const budget = req.body.budget
+  const description = req.body.description
+  
+  // define query parameters
+  const sql = `INSERT INTO transactions (
+    id,
+    date,
+    vendor,
+    amount,
+    category,
+    account,
+    program,
+    account_group,
+    budget,
+    description
+  ) VALUES (
+    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+  )`
+  
+  const sql_arg = [
+    id,
+    date,
+    vendor,
+    amount,
+    category,
+    account,
+    program,
+    account_group,
+    budget,
+    description
+  ]
+
+  connection.query(sql, sql_arg, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    console.log(result)
+  })   
+})
 
 // end the connection
 connection.end()
