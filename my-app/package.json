@@ -1,6 +1,5 @@
 {
   "name": "my-app",
-  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +11,7 @@
     "cors": "2.8.1",
     "dotenv": "^16.0.3",
     "express": "~4.0.0",
+    "json": "^11.0.0",
     "mssql": "^6.2.1",
     "mysql2": "^2.3.3",
     "react": "^18.2.0",

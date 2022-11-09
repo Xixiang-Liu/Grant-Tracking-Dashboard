@@ -1,29 +1,81 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import mysql from 'mysql2/promise'
-
-// initialization
-dotenv.config()
-const app = express()
-
 // create the connection
+const mysql = require('mysql2')
 const DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
-const connection = await mysql.createConnection(DATABASE_URL)
+const connection = mysql.createConnection(DATABASE_URL)
+
+// initialize app
+const express = require('express')
+const cors = require('cors')
+const app = express()
+app.use(cors())
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+
 
 // get all data from the table
-app.get('/get_all', async (req, res) => {
-  let status = 200
-  let retVal = {}
-  try {
-    const query = 'SELECT * FROM transactions'
-    const [rows] = await connection.query(query)
-    retVal.data = rows
-  } catch (err) {
-    console.error(err)
-    retVal.message = 'Fail to get all the transactions'
-  } finally {
-    res.status(status).json(retVal)
-  }
+app.get("/read", (req,res)=>{
+  
+  const sql = "SELECT * FROM transactions"
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// insert a row into the table
+app.post('/insert', (req,res)=> {
+
+  // grab all the variables
+  const id = req.body.id
+  const date = req.body.date
+  const vendor = req.body.vendor
+  const amount = req.body.amount
+  const category = req.body.category
+  const account = req.body.account
+  const program = req.body.program
+  const account_group = req.body.account_group
+  const budget = req.body.budget
+  const description = req.body.description
+  
+  // define query parameters
+  const sql = `INSERT INTO transactions (
+    id,
+    date,
+    vendor,
+    amount,
+    category,
+    account,
+    program,
+    account_group,
+    budget,
+    description
+  ) VALUES (
+    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+  )`
+  
+  const sql_arg = [
+    id,
+    date,
+    vendor,
+    amount,
+    category,
+    account,
+    program,
+    account_group,
+    budget,
+    description
+  ]
+
+  connection.query(sql, sql_arg, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    console.log(result)
+  })   
 })
 
 // end the connection
