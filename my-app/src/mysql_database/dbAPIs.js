@@ -1,30 +1,29 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import mysql from 'mysql2/promise'
-
-// initialization
-dotenv.config()
-const app = express()
-
 // create the connection
+const mysql = require('mysql2')
 const DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
-const connection = await mysql.createConnection(DATABASE_URL)
+const connection = mysql.createConnection(DATABASE_URL)
+
+// initialize app
+const express = require('express')
+const cors = require('cors')
+const app = express()
+app.use(cors())
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
 
 // get all data from the table
-app.get('/get_all', async (req, res) => {
-  let status = 200
-  let retVal = {}
-  try {
-    const query = 'SELECT * FROM transactions'
-    const [rows] = await connection.query(query)
-    retVal.data = rows
-  } catch (err) {
-    console.error(err)
-    retVal.message = 'Fail to get all the transactions'
-  } finally {
-    res.status(status).json(retVal)
-  }
-})
+app.get("/READ", (req,res)=>{
+  const sql = "SELECT * FROM transactions"
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  });   
+});
+
+// insert a row into the table
+
 
 // end the connection
 connection.end()
