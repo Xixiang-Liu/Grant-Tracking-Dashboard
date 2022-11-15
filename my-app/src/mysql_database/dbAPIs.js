@@ -61,7 +61,6 @@ app.post('/insert', (req,res)=> {
   
   // define query arguments
   const sql_arg = [
-    id,
     date,
     vendor,
     amount,
@@ -101,7 +100,7 @@ app.post('/update',(req,res)=>{
   // define query parameters
   const sql = `UPDATE transactions SET 
     date = ?,
-    vendo = ?,
+    vendor = ?,
     amount = ?,
     category = ?,
     account = ?,
