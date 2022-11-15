@@ -1,6 +1,14 @@
 import React from 'react';
+import Login from './Login';
+
+
 
 const Home = () => {
+  
+  if(isSubmitting){
+    return <Login />
+  }
+  else
   return (
     <div
       style={{
