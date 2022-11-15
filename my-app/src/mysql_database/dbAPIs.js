@@ -33,7 +33,7 @@ app.get("/read", (req,res)=>{
 app.post('/insert', (req,res)=> {
 
   // grab all the variables
-  const id = req.body.id
+  // no id here, id is auto increment
   const date = req.body.date
   const vendor = req.body.vendor
   const amount = req.body.amount
@@ -46,7 +46,6 @@ app.post('/insert', (req,res)=> {
   
   // define query parameters
   const sql = `INSERT INTO transactions (
-    id,
     date,
     vendor,
     amount,
@@ -57,7 +56,7 @@ app.post('/insert', (req,res)=> {
     budget,
     description
   ) VALUES (
-    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    ?, ?, ?, ?, ?, ?, ?, ?, ?
   )`
   
   // define query arguments
