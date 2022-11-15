@@ -55,8 +55,12 @@ function test_insert(transaction) {
 
 /*
 // id is auto increment, so arbitrary value here for insert
-test_case = new Transaction(0, "8888-01-01", "v", 233, "c", "a", "p", "ag", 22, "d")
-test_insert(test_case);
+test_case1 = new Transaction(0, "8888-01-01", "v", 233, "c", "a", "p", "ag", 22, "d")
+test_insert(test_case1);
+test_case2 = new Transaction(0, "7777-01-01", "v", 233, "c", "a", "p", "ag", 22, "d")
+test_insert(test_case2);
+test_case3 = new Transaction(0, "3333-01-01", "v", 555, "ccc", "a", "p", "ag", 22, "d")
+test_insert(test_case3);
 */
 
 function test_read() {
@@ -140,7 +144,118 @@ function test_delete(id) {
   })   
 }
 
+/*
 test_delete(1)
+*/
+
+function test_filter(transaction) {
+
+  // grab all the variables
+  const id = transaction.id
+  const date = transaction.date
+  const vendor = transaction.vendor
+  const amount = transaction.amount
+  const category = transaction.category
+  const account = transaction.account
+  const program = transaction.program
+  const account_group = transaction.account_group
+  const budget = transaction.budget
+  const description = transaction.description
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE`
+  var had_condition = false
+  if (id != -1) {
+    sql += ` id = ${id}`
+    had_condition = true
+  }
+  if (date != `*`) {
+    if (had_condition)
+      sql += ` AND date = '${date}'`
+    else {
+      sql += ` date = '${date}'`
+      had_condition = true
+    }
+  }
+  if (vendor != `*`) {
+    if (had_condition)
+      sql += ` AND vendor = '${vendor}'`
+    else {
+      sql += ` vendor = '${vendor}'`
+      had_condition = true
+    }
+  }
+  if (amount != -1) {
+    if (had_condition)
+      sq1 += ` AND amount = ${amount}`
+    else {
+      sql += ` amount = ${amount}`
+      had_condition = true
+    }
+  }
+  if (category != `*`) {
+    if (had_condition)
+      sql += ` AND category = '${category}'`
+    else {
+      sql += ` category = '${category}'`
+      had_condition = true
+    }
+  }
+  if (account != `*`) {
+    if (had_condition)
+      sql += ` AND account = '${account}'`
+    else {
+      sql += ` account = '${account}'`
+      had_condition = true
+    }
+  }
+  if (program != `*`) {
+    if (had_condition)
+      sql += ` AND program = '${program}'`
+    else {
+      sql += ` program = '${program}'`
+      had_condition = true
+    }
+  }
+  if (account_group != `*`) {
+    if (had_condition)
+      sql += ` AND account_group = '${account_group}'`
+    else {
+      sql += ` account_group = '${account_group}'`
+      had_condition = true
+    }
+  }
+  if (budget != -1) {
+    if (had_condition)
+      sq1 += ` AND budget = ${budget}`
+    else {
+      sql += ` budget = ${budget}`
+      had_condition = true
+    }
+  }
+  if (description != `*`) {
+    if (had_condition)
+      sql += ` AND description = '${description}'`
+    else {
+      sql += ` description = '${description}'`
+      had_condition = true
+    }
+  }
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    console.log(result)
+  })
+}
+
+/*
+test_case = new Transaction(2, "3333-01-01", `v2`, -1, "*", "*", "*", "*", -1, "*")
+test_filter(test_case)
+*/
 
 // end the connection
 connection.end()

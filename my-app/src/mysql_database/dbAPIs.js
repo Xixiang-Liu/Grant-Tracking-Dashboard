@@ -152,6 +152,116 @@ app.delete('/delete/:id',(req,res)=>{
 })
 
 
+// filter according to the condition
+// take an Transaction object
+// For the object: 
+// if a parameter has a specific value, then this is a condition
+// otherwise, the value should be "*" for string and -1 for number, means no condition here 
+app.get("/filter", (req,res)=>{
+
+  // grab all the variables
+  const id = req.body.id
+  const date = req.body.date
+  const vendor = req.body.vendor
+  const amount = req.body.amount
+  const category = req.body.category
+  const account = req.body.account
+  const program = req.body.program
+  const account_group = req.body.account_group
+  const budget = req.body.budget
+  const description = req.body.description
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE`
+  var had_condition = false
+  if (id != -1) {
+    sql += ` id = ${id}`
+    had_condition = true
+  }
+  if (date != `*`) {
+    if (had_condition)
+      sql += ` AND date = '${date}'`
+    else {
+      sql += ` date = '${date}'`
+      had_condition = true
+    }
+  }
+  if (vendor != `*`) {
+    if (had_condition)
+      sql += ` AND vendor = '${vendor}'`
+    else {
+      sql += ` vendor = '${vendor}'`
+      had_condition = true
+    }
+  }
+  if (amount != -1) {
+    if (had_condition)
+      sq1 += ` AND amount = ${amount}`
+    else {
+      sql += ` amount = ${amount}`
+      had_condition = true
+    }
+  }
+  if (category != `*`) {
+    if (had_condition)
+      sql += ` AND category = '${category}'`
+    else {
+      sql += ` category = '${category}'`
+      had_condition = true
+    }
+  }
+  if (account != `*`) {
+    if (had_condition)
+      sql += ` AND account = '${account}'`
+    else {
+      sql += ` account = '${account}'`
+      had_condition = true
+    }
+  }
+  if (program != `*`) {
+    if (had_condition)
+      sql += ` AND program = '${program}'`
+    else {
+      sql += ` program = '${program}'`
+      had_condition = true
+    }
+  }
+  if (account_group != `*`) {
+    if (had_condition)
+      sql += ` AND account_group = '${account_group}'`
+    else {
+      sql += ` account_group = '${account_group}'`
+      had_condition = true
+    }
+  }
+  if (budget != -1) {
+    if (had_condition)
+      sq1 += ` AND budget = ${budget}`
+    else {
+      sql += ` budget = ${budget}`
+      had_condition = true
+    }
+  }
+  if (description != `*`) {
+    if (had_condition)
+      sql += ` AND description = '${description}'`
+    else {
+      sql += ` description = '${description}'`
+      had_condition = true
+    }
+  }
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  })
+})
+
+
 // listen
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`)
