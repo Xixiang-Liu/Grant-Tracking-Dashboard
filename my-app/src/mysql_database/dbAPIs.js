@@ -99,7 +99,7 @@ app.post('/update',(req,res)=>{
   const description = req.body.description
 
   // define query parameters
-  const sql = `UPDATE transactions SET (
+  const sql = `UPDATE transactions SET 
     date = ?,
     vendo = ?,
     amount = ?,
@@ -109,7 +109,6 @@ app.post('/update',(req,res)=>{
     account_group = ?,
     budget = ?,
     description = ?
-  ) 
   WHERE id = ?`
   
   // define query arguments
