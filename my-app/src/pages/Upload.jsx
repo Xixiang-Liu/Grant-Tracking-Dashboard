@@ -4,7 +4,7 @@ import Papa from "papaparse";
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
 
-function Upload() {
+export const Upload = () => {
   // This state will store the parsed data
   const [data, setData] = useState([]);
      
@@ -81,5 +81,3 @@ function Upload() {
   );
 };
 
-
-export default Upload;

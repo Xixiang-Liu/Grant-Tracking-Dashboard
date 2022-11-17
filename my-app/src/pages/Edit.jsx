@@ -4,7 +4,7 @@ import data from "../mock-data.json";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 
-const Edit = () => {
+export const Edit = () => {
   const [records, setRecords] = useState(data);
   const [addFormData, setAddFormData] = useState({
     date: "",
@@ -245,4 +245,3 @@ const Edit = () => {
   );
 };
 
-export default Edit;

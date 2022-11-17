@@ -1,14 +1,6 @@
 import React from 'react';
-import Login from './Login';
 
-
-
-const Home = () => {
-  
-  if(isSubmitting){
-    return <Login />
-  }
-  else
+export const Home = () => {
   return (
     <div
       style={{
@@ -24,5 +16,5 @@ const Home = () => {
   );
 };
   
-export default Home;
+
 
