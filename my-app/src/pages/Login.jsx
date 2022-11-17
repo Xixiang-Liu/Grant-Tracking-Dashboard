@@ -1,97 +1,84 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-const Login = () => {
-  const intialValues = { email: "", password: "" };
-  const [formValues, setFormValues] = useState(intialValues);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
- 
+export const LoginPage = () => {
+  const { login } = useAuth();
 
-
-  const submit = () => {
-    console.log(formValues);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    login({
+      email: data.get("email"),
+      password: data.get("password")
+    });
   };
-
-  //input change handler
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
-  //form submission handler
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmitting(true);
-  };
-
-  //form validation handler
-  const validate = (values) => {
-    let errors = {};
-    //const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const username = new RegExp('523');
-    const passowrdTest = new RegExp('523');
-    
-
-    if (!values.email) {
-      errors.email = "Cannot be blank";
-    } else if (!username.test(values.email)) {
-      errors.email = "Invalid email format";
-    }
-
-    if (!values.password) {
-      errors.password = "Cannot be blank";
-    } else if (!passowrdTest.test(values.password)) {
-      errors.password = "Wrong password";
-    }
-
-    return errors;
-  };
-
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmitting) {
-      submit();
-    }
-  }, [formErrors]);
 
   return (
-    <div className="container">
-    <div>
-      <h1>Sign in to continue</h1>
-      {Object.keys(formErrors).length === 0 && isSubmitting && (
-        <span>Form submitted successfully</span>
-        
-      )}
-      <form onSubmit={handleSubmit} noValidate>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log In
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
             id="email"
-            value={formValues.email}
-            onChange={handleChange}
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
           />
-          {formErrors.email && <span>{formErrors.email}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
+          <TextField
+            margin="normal"
+            required
+            fullWidth
             name="password"
+            label="Password"
+            type="password"
             id="password"
-            value={formValues.password}
-            onChange={handleChange}
+            autoComplete="current-password"
           />
-          {formErrors.password && <span>{formErrors.password}</span>}
-        </div>
-
-        <button type="submit">Sign In</button>
-      </form>
-    </div>
-    </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Login In
+          </Button>
+          <Grid container>
+            <Grid item>
+              <RouterLink to="/register">
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </RouterLink>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
   );
-  
 };
-export default Login;

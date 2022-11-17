@@ -1,42 +1,30 @@
-import './App.css';
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
-import Navbar from './components/NavBar/NavIndex';
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Upload from "./pages/Upload";
-import Edit from './pages/Edit';
-import Login from './pages/Login';
+import { Routes, Route } from "react-router-dom";
+import { LoginPage } from "./pages/Login";
+import { Home } from "./pages/Home";
+import { About} from "./pages/About";
+import { ProtectedLayout } from "./components/ProtectedLayout";
+import { HomeLayout } from "./components/HomeLayout";
+import {Upload} from "./pages/Upload";
+import {Profile} from "./pages/Profile";
+import { Edit } from "./pages/Edit"
+import "./styles.css";
 
-
-function App() {
-  
+export default function App() {
   return (
-    
-    <div className="App">
-      <Router>
-        
-        <div className="container">
-          
-        <Navbar />
-        <Routes>
-            <Route path="/Home" element={<Home />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/Edit" element={<Edit />} />
-            <Route path="/Upload" element={<Upload />} />
-            <Route path="/Login" element={<Login />} />
-        </Routes>
-        </div>
-        
-      </Router>
-    </div>
-    
+    <Routes>
+      <Route element={<HomeLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
+
+      <Route path="/dashboard" element={<ProtectedLayout />}>
+        <Route path="profile" element={<Profile />} />
+        <Route path="about" element={<About />} />
+        <Route path="upload" element={<Upload />} />
+        <Route path="edit" element={<Edit />} />
+      </Route>
+    </Routes>
   );
 }
   
 
-export default App;
