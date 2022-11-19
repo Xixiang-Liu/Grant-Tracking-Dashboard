@@ -1,0 +1,17 @@
+import React from 'react';
+  
+export const About = () =>{
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
+      }}
+    >
+      <h1>About page </h1>
+    </div>
+  );
+};
+  
