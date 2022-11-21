@@ -51,6 +51,7 @@ export const Upload = () => {
       // Event listener on reader when the file
       // loads, we parse it and set the data.
       reader.onload = async ({ target }) => {
+
         const csv = Papa.parse(target.result, { encoding: "utf-8", header: true, skipEmptyLines: true
       });
         const parsedData = csv?.data;
@@ -81,6 +82,7 @@ export const Upload = () => {
     };
     reader.readAsText(file);
 };
+
 
   return (
       <div>
