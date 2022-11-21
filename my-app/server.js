@@ -31,7 +31,14 @@ app.get("/read", (req,res)=>{
 
 // insert a row into the table
 app.post('/insert', (req,res)=> {
-
+  console.log(req, 333)
+  // grab all the variables
+  // no id here, id is auto increment
+  let params = req.query
+  console.log(req.query, req.body, Object.keys(req.query).length, 333)
+  if (Object.keys(req.query).length === 0) {
+    params = req.body
+  }
   // grab all the variables
   // no id here, id is auto increment
   const date = req.body.date
