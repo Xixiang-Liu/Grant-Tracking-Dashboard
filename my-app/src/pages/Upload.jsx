@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
+import Transaction from "../mysql_database/transaction"
  
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
@@ -51,10 +52,23 @@ export const Upload = () => {
       // Event listener on reader when the file
       // loads, we parse it and set the data.
       reader.onload = async ({ target }) => {
-          const csv = Papa.parse(target.result, { header: true });
-          const parsedData = csv?.data;
-          const columns = Object.keys(parsedData[0]);
-          setData(columns);
+        const csv = Papa.parse(target.result, { header: true });
+        const parsedData = csv?.data;
+        // document.write(JSON.stringify(parsedData))
+
+        const transaction = new Transaction(
+          0, 
+          parsedData[0].date, 
+          parsedData[0].vendor, 
+          parsedData[0].amount, 
+          parsedData[0].category, 
+          parsedData[0].account, 
+          parsedData[0].program, 
+          parsedData[0].account_group, 
+          parsedData[0].budget, 
+          parsedData[0]["description\n"]
+        )
+        document.write(JSON.stringify(transaction))
       };
       reader.readAsText(file);
   };
