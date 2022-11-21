@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
-import Transaction from "../mysql_database/transaction"
+
  
 // Allowed extensions for input file
 const allowedExtensions = ["csv"];
