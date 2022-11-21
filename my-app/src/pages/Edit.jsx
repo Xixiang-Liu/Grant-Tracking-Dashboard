@@ -1,8 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { nanoid } from "nanoid";
 import data from "../mock-data.json";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
+import { handleQueryDB, handleInsertDB } from '../util/DataHelper'
 
 export const Edit = () => {
   const [records, setRecords] = useState(data);
@@ -31,6 +32,21 @@ export const Edit = () => {
   });
 
   const [editRecordId, setEditRecordId] = useState(null);
+
+  const queryData = async () => {
+    try {
+      const result = await handleQueryDB()
+      console.log(result.data, 333)
+      const filteredData = result.data.filter(item => item.date)
+      setRecords(filteredData)
+    } catch(e) {
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    queryData()
+  }, [])
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
