@@ -54,21 +54,23 @@ export const Upload = () => {
       reader.onload = async ({ target }) => {
         const csv = Papa.parse(target.result, { header: true });
         const parsedData = csv?.data;
-        // document.write(JSON.stringify(parsedData))
-
-        const transaction = new Transaction(
-          0, 
-          parsedData[0].date, 
-          parsedData[0].vendor, 
-          parsedData[0].amount, 
-          parsedData[0].category, 
-          parsedData[0].account, 
-          parsedData[0].program, 
-          parsedData[0].account_group, 
-          parsedData[0].budget, 
-          parsedData[0]["description\n"]
-        )
-        document.write(JSON.stringify(transaction))
+        var rows = []
+        for (let i = 0; i < parsedData.length - 1; i++) {
+            const transaction = new Transaction(
+                0, 
+                parsedData[i].date, 
+                parsedData[i].vendor, 
+                parsedData[i].amount, 
+                parsedData[i].category, 
+                parsedData[i].account, 
+                parsedData[i].program, 
+                parsedData[i].account_group, 
+                parsedData[i].budget, 
+                parsedData[i]["description\n"]
+              )
+            rows.push(transaction)
+        }
+        document.write(JSON.stringify(rows))
       };
       reader.readAsText(file);
   };
