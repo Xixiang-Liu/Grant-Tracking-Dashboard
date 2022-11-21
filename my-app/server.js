@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 // initialize PORT
-const PORT = 3000
+const PORT = 5000
 
 
 // get all data from the table
