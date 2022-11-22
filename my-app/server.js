@@ -337,6 +337,20 @@ app.get("/filter_account_group/:account_group", (req,res)=>{
 })
 
 
+// delete all rows from transactions
+app.delete('/delete_all',(req,res)=>{
+
+  // define query
+  const sql =  `DELETE FROM transactions`
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)   
+    } 
+  })   
+})
+
+
 // listen
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`)
