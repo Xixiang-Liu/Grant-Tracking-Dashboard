@@ -1,6 +1,11 @@
 // create the connection
 const mysql = require('mysql2')
-const DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
+
+const DATABASE_URL=`mysql://hulhm1xpdtm47ix1wug0:
+  pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi
+  @us-east.connect.psdb.cloud
+  /grant_tracking?ssl={"rejectUnauthorized":true}`
+
 const connection = mysql.createConnection(DATABASE_URL)
 
 // initialize app
@@ -257,6 +262,69 @@ app.get("/filter", (req,res)=>{
       had_condition = true
     }
   }
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// filter by account
+app.get("/filter_account/:account", (req,res)=>{
+
+  // grab all the variables
+  const account = req.params.account
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE account = '${account}'`
+
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// filter by program
+app.get("/filter_program/:program", (req,res)=>{
+
+  // grab all the variables
+  const program = req.params.program
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE program = '${program}'`
+
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// filter by account_group
+app.get("/filter_account_group/:account_group", (req,res)=>{
+
+  // grab all the variables
+  const account_group = req.params.account_group
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE account_group = '${account_group}'`
+
   // print to check if the query is correct
   console.log(sql)
   
