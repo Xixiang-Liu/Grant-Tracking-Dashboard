@@ -30,7 +30,7 @@ export const Upload = () => {
           // we show the error
           const fileExtension = inputFile?.type.split("/")[1];
           if (!allowedExtensions.includes(fileExtension)) {
-              setError("Please input a csv file");
+              setError("Please upload a csv file");
               return;
           }
 
@@ -40,11 +40,10 @@ export const Upload = () => {
   };
 
   const handleParse = () => {
-       //!!!!!!!!CHANGE TO API PASSING CSV FILE TO DB!!!!
        
       // If user clicks the parse button without
       // a file we show a error
-      if (!file) return setError("Enter a valid file");
+      if (!file) return setError("Please choose a valid file. Only csv file is accepted. Make sure date formate is yyyy/mm/dd.");
 
       // Initialize a reader which allows user
       // to read any file or blob.
