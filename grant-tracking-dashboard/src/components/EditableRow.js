@@ -4,6 +4,9 @@ const EditableRow = ({
   editFormData,
   handleEditFormChange,
   handleCancelClick,
+  categories,
+  setSelectedCategory,
+  editCategory
 }) => {
   return (
     <tr>
@@ -38,14 +41,18 @@ const EditableRow = ({
         ></input>
       </td>
       <td>
-        <input
-          type="text"
-          name="category"
-          required="required"
-          placeholder="Enter a category..."
-          value={editFormData.category}
-          onChange={handleEditFormChange}
-        ></input>
+        <select 
+            name = "category"
+            style={{ height: 22 }}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            value={editCategory || editFormData.category}
+        >
+            {
+                categories.map(program => (
+                    <option value={program}>{program}</option>
+                ))
+            }
+        </select>
       </td>
       <td>
         <input
