@@ -2,9 +2,9 @@
 const mysql = require('mysql2')
 
 const DATABASE_URL=`mysql://hulhm1xpdtm47ix1wug0:
-  pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi
-  @us-east.connect.psdb.cloud
-  /grant_tracking?ssl={"rejectUnauthorized":true}`
+pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi
+@us-east.connect.psdb.cloud
+/grant_tracking?ssl={"rejectUnauthorized":true}`
 
 const connection = mysql.createConnection(DATABASE_URL)
 
