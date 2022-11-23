@@ -1,5 +1,8 @@
 // the url for my database on planetscale
-DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
+const DATABASE_URL=`mysql://hulhm1xpdtm47ix1wug0:
+pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi
+@us-east.connect.psdb.cloud
+/grant_tracking?ssl={"rejectUnauthorized":true}`
 
 // require needed stuffs
 require('dotenv').config()
@@ -15,16 +18,17 @@ connection.connect(function(err) {
     console.log("Connected!");
     
     // my query
+    // formerly (6, 2), enlarge to (14, 2) to enable larger numbers
     var sql = `CREATE TABLE transactions (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
         date DATETIME, 
-        vendor VARCHAR(100), 
-        amount Decimal(6, 2), 
+        vendor VARCHAR(100),
+        amount Decimal(14, 2), 
         category VARCHAR(100), 
         account VARCHAR(100), 
         program VARCHAR(100), 
         account_group VARCHAR(100), 
-        budget Decimal(6, 2), 
+        budget Decimal(14, 2), 
         description VARCHAR(255)
     )`;
 
