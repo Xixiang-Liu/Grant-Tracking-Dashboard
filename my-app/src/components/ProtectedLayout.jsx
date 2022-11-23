@@ -17,8 +17,8 @@ export const ProtectedLayout = () => {
           { label: "About", path: "about" },
           { label: "Profile", path: "profile" },
           { label: "Edit", path: "edit"},
-          { label: "Upload", path: "upload" }
-          
+          { label: "Upload", path: "upload" },
+          { label: "Budget", path: "budget"}
         ]}
       />
       {outlet}

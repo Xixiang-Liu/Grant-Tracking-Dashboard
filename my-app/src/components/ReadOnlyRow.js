@@ -3,16 +3,16 @@ import React from "react";
 const ReadOnlyRow = ({ record, handleEditClick, handleDeleteClick }) => {
   return (
     <tr>
-      <td>{record.date}</td>
-      <td>{record.vendor}</td>
-      <td>{record.amount}</td>
-      <td>{record.category}</td>
-      <td>{record.account}</td>
-      <td>{record.program}</td>
-      <td>{record.account_group}</td>
-      <td>{record.budget}</td>
-      <td>{record.description}</td>
-      <td>
+      <td style={{border: '1px solid #ccc'}}>{new Date(record.date).toLocaleDateString() || record.date}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.vendor}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.amount}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.category}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.account}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.program}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.account_group}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.budget}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.description}</td>
+      <td style={{border: '1px solid #ccc'}}>
         <button
           type="button"
           onClick={(event) => handleEditClick(event, record)}

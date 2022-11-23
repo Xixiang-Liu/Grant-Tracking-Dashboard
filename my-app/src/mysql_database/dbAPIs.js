@@ -31,18 +31,22 @@ app.get("/read", (req,res)=>{
 
 // insert a row into the table
 app.post('/insert', (req,res)=> {
-
+  let params = req.body
+  // console.log(req.query, req.body, Object.keys(req.query).length, 333)
+  // if (Object.keys(req.query).length === 0) {
+  //   params = req.body
+  // }
   // grab all the variables
   // no id here, id is auto increment
-  const date = req.body.date
-  const vendor = req.body.vendor
-  const amount = req.body.amount
-  const category = req.body.category
-  const account = req.body.account
-  const program = req.body.program
-  const account_group = req.body.account_group
-  const budget = req.body.budget
-  const description = req.body.description
+  const date = params.date
+  const vendor = params.vendor
+  const amount = params.amount
+  const category = params.category
+  const account = params.account
+  const program = params.program
+  const account_group = params.account_group
+  const budget = params.budget
+  const description = params.description
   
   // define query parameters
   const sql = `INSERT INTO transactions (
@@ -74,9 +78,9 @@ app.post('/insert', (req,res)=> {
 
   connection.query(sql, sql_arg, (err, result) => {
     if (err) {
-      console.log(err)
+      console.log(err, 33366)
     } 
-    console.log(result)
+    console.log(result, 444)
   })   
 })
 
@@ -196,7 +200,7 @@ app.get("/filter", (req,res)=>{
   }
   if (amount != -1) {
     if (had_condition)
-      sq1 += ` AND amount = ${amount}`
+      sql += ` AND amount = ${amount}`
     else {
       sql += ` amount = ${amount}`
       had_condition = true
@@ -236,7 +240,7 @@ app.get("/filter", (req,res)=>{
   }
   if (budget != -1) {
     if (had_condition)
-      sq1 += ` AND budget = ${budget}`
+      sql += ` AND budget = ${budget}`
     else {
       sql += ` budget = ${budget}`
       had_condition = true
