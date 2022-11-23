@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import data from "../mock-data.json";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
-import { handleQueryDB, handleInsertDB, handleUpdate, handleDelete, handleFilter } from '../util/DataHelper'
+import { handleQueryDB, handleInsertDB, handleUpdate, handleDelete, handleFilter, handleDeleteAll } from '../util/DataHelper'
 const emptyData = {
   date: "",
   vendor: "",
@@ -20,8 +20,9 @@ const emptyFilterData = {
   program_filter: "",
   account_group_filter: ""
 }
+const categories = ['-- Category --', 'EXPENSE', 'REVENUE']
 export const Edit = () => {
-  const [records, setRecords] = useState(data);
+  const [records, setRecords] = useState([]);
   const [addFormData, setAddFormData] = useState(emptyData);
 
   const [editFormData, setEditFormData] = useState(emptyData);
@@ -30,10 +31,14 @@ export const Edit = () => {
 
   const [filterData, setFilterData] = useState(emptyFilterData);
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [editCategory, setEditCategory] = useState('');
+
+  
   const queryData = async () => {
     try {
       const result = await handleQueryDB()
-      console.log(result.data, 333)
       const filteredData = result.data.filter(item => item.date)
       setRecords(filteredData)
     } catch(e) {
@@ -78,7 +83,7 @@ export const Edit = () => {
         date: addFormData.date,
         vendor: addFormData.vendor,
         amount: addFormData.amount,
-        category: addFormData.category,
+        category: selectedCategory,
         account: addFormData.account,
         program: addFormData.program,
         account_group: addFormData.account_group,
@@ -106,7 +111,7 @@ export const Edit = () => {
       date: editFormData.date,
       vendor: editFormData.vendor,
       amount: editFormData.amount,
-      category: editFormData.category,
+      category: editCategory,
       account: editFormData.account,
       program: editFormData.program,
       account_group: editFormData.account_group,
@@ -127,12 +132,13 @@ export const Edit = () => {
   const handleEditClick = (event, record) => {
     event.preventDefault();
     setEditRecordId(record.id);
-
+    const dateObj = new Date(record.date)
+    const month = (dateObj.getMonth() + 1)
     const formValues = {
-      date: record.date,
+      date: dateObj.getFullYear() + '-' + (month < 10 ? ('0' + month) : month) + '-' + dateObj.getDate() ,
       vendor: record.vendor,
       amount: record.amount,
-      category: record.category,
+      category: record.category.trim(),
       account: record.account,
       program: record.program,
       account_group: record.account_group,
@@ -172,13 +178,21 @@ export const Edit = () => {
     const program = filterData.program_filter
     const accountGroup = filterData.account_group_filter
     const res = await handleFilter(account, program, accountGroup)
-    console.log({res}, 'filter')
     setRecords(res)
   }
 
   const handleResetClick = async () => {
     setFilterData(emptyFilterData)
     queryData()
+  }
+
+  const handleDeleteAllClick = async () => {
+    if (window.confirm("Are you sure to delete all data?")) {
+      await handleDeleteAll()
+      setFilterData(emptyFilterData)
+      await queryData()
+      alert("Deleted successfully!")
+    } 
   }
 
   return (
@@ -207,13 +221,25 @@ export const Edit = () => {
           placeholder="Enter an amount..."
           onChange={handleAddFormChange}
         />
-        <input
+        {/* <input
           type="text"
           name="category"
           required="required"
           placeholder="Enter a category..."
           onChange={handleAddFormChange}
-        />
+        /> */}
+        <select 
+            name = "category"
+            style={{ height: 22 }}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+            value={selectedCategory}
+        >
+            {
+                categories.map(program => (
+                    <option value={program}>{program}</option>
+                ))
+            }
+        </select>
         <input 
           type = "text"
           name = "account"
@@ -276,6 +302,8 @@ export const Edit = () => {
         />
         <button style={{width: '100px', marginLeft: '20px'}} onClick={handleFilterClick}>Filter</button>
         <button style={{width: '100px', marginLeft: '10px'}} onClick={handleResetClick}>Reset</button>
+        <button style={{width: '100px', marginLeft: '10px'}} onClick={handleDeleteAllClick}>Delete All</button>
+
       </div>
 
       <form style={{marginTop: '2rem'}} onSubmit={handleEditFormSubmit}>
@@ -299,12 +327,17 @@ export const Edit = () => {
               <Fragment>
                 {editRecordId === record.id ? (
                   <EditableRow
+                    key={record.id}
                     editFormData={editFormData}
                     handleEditFormChange={handleEditFormChange}
                     handleCancelClick={handleCancelClick}
+                    categories={categories}
+                    setSelectedCategory={setEditCategory}
+                    editCategory={editCategory}
                   />
                 ) : (
                   <ReadOnlyRow
+                    key={'readOnly' + record.id}
                     record={record}
                     handleEditClick={handleEditClick}
                     handleDeleteClick={handleDeleteClick}

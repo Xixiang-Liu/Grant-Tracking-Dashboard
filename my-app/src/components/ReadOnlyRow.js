@@ -10,7 +10,7 @@ const ReadOnlyRow = ({ record, handleEditClick, handleDeleteClick }) => {
       <td style={{border: '1px solid #ccc'}}>{record.account}</td>
       <td style={{border: '1px solid #ccc'}}>{record.program}</td>
       <td style={{border: '1px solid #ccc'}}>{record.account_group}</td>
-      <td style={{border: '1px solid #ccc'}}>{record.budget}</td>
+      <td style={{border: '1px solid #ccc'}}>{record.budget < 0 ? "" : record.budget}</td>
       <td style={{border: '1px solid #ccc'}}>{record.description}</td>
       <td style={{border: '1px solid #ccc'}}>
         <button

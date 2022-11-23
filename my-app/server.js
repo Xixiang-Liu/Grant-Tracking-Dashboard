@@ -1,10 +1,7 @@
 // create the connection
 const mysql = require('mysql2')
 
-const DATABASE_URL=`mysql://hulhm1xpdtm47ix1wug0:
-pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi
-@us-east.connect.psdb.cloud
-/grant_tracking?ssl={"rejectUnauthorized":true}`
+const DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
 
 const connection = mysql.createConnection(DATABASE_URL)
 
@@ -359,6 +356,7 @@ app.delete('/delete_all',(req,res)=>{
       console.log(err)   
       next(err)
     } 
+    res.send(result)
   })   
 })
 

@@ -57,10 +57,8 @@ export const Upload = () => {
         });
           const parsedData = csv?.data;
           const columns = Object.keys(parsedData[0]);
-          console.log(columns, parsedData)
           const postReqs = []
           parsedData.forEach(element => {
-            console.log({element})
               const item = handleInsertDB({
                 date: element.Date, 
                 vendor: element.Vendor, 
