@@ -1,6 +1,8 @@
 // create the connection
 const mysql = require('mysql2')
+
 const DATABASE_URL='mysql://hulhm1xpdtm47ix1wug0:pscale_pw_8XoyaZAtA8dLvHt21a4Wj9d1wn8IRNrvAkXzxvbgrhi@us-east.connect.psdb.cloud/grant_tracking?ssl={"rejectUnauthorized":true}'
+
 const connection = mysql.createConnection(DATABASE_URL)
 
 // initialize app
@@ -30,15 +32,15 @@ app.get("/read", (req,res)=>{
 
 
 // insert a row into the table
-app.post('/insert', (req,res)=> {
-  console.log(req, 333)
+app.post('/insert', (req,res,next)=> {
+// console.log(req, 333)
   // grab all the variables
   // no id here, id is auto increment
-  let params = req.query
-  console.log(req.query, req.body, Object.keys(req.query).length, 333)
-  if (Object.keys(req.query).length === 0) {
-    params = req.body
-  }
+// let params = req.query
+// console.log(req.query, req.body, Object.keys(req.query).length, 333)
+// if (Object.keys(req.query).length === 0) {
+//   params = req.body
+// }
   // grab all the variables
   // no id here, id is auto increment
   const date = req.body.date
@@ -82,8 +84,10 @@ app.post('/insert', (req,res)=> {
   connection.query(sql, sql_arg, (err, result) => {
     if (err) {
       console.log(err)
+      next(err)
     } 
     console.log(result)
+    res.send(result)
   })   
 })
 
@@ -131,11 +135,13 @@ app.post('/update',(req,res)=>{
     id
   ]
 
-  connection.query(sql, sql_arg, (err, result) => {
+  connection.query(sql, sql_arg, (err, result, next) => {
     if (err) {
-      console.log(err)   
+      console.log(err)
+      next(err)
     } 
     console.log(result)
+    res.send(result)
   })    
 })
 
@@ -151,10 +157,13 @@ app.delete('/delete/:id',(req,res)=>{
   // define query arguments
   const sql_arg = id
   
-  connection.query(sql, sql_arg, (err, result) => {
+  connection.query(sql, sql_arg, (err, result, next) => {
     if (err) {
-      console.log(err)   
+      console.log(err)
+      next(err)
     } 
+    console.log(result)
+    res.send(result)
   })   
 })
 
@@ -203,7 +212,7 @@ app.get("/filter", (req,res)=>{
   }
   if (amount != -1) {
     if (had_condition)
-      sq1 += ` AND amount = ${amount}`
+      sql += ` AND amount = ${amount}`
     else {
       sql += ` amount = ${amount}`
       had_condition = true
@@ -243,7 +252,7 @@ app.get("/filter", (req,res)=>{
   }
   if (budget != -1) {
     if (had_condition)
-      sq1 += ` AND budget = ${budget}`
+      sql += ` AND budget = ${budget}`
     else {
       sql += ` budget = ${budget}`
       had_condition = true
@@ -260,12 +269,94 @@ app.get("/filter", (req,res)=>{
   // print to check if the query is correct
   console.log(sql)
   
-  connection.query(sql, (err, result) => {
+  connection.query(sql, (err, result, next) => {
     if (err) {
       console.log(err)
+      next(err)
     } 
     res.send(result)
   })
+})
+
+
+// filter by account
+app.get("/filter_account/:account", (req,res)=>{
+
+  // grab all the variables
+  const account = req.params.account
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE account = '${account}'`
+
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result, next) => {
+    if (err) {
+      console.log(err)
+      next(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// filter by program
+app.get("/filter_program/:program", (req,res)=>{
+
+  // grab all the variables
+  const program = req.params.program
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE program = '${program}'`
+
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result, next) => {
+    if (err) {
+      console.log(err)
+      next(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// filter by account_group
+app.get("/filter_account_group/:account_group", (req,res)=>{
+
+  // grab all the variables
+  const account_group = req.params.account_group
+  
+  // construct the query
+  var sql = `SELECT * FROM transactions WHERE account_group = '${account_group}'`
+
+  // print to check if the query is correct
+  console.log(sql)
+  
+  connection.query(sql, (err, result, next) => {
+    if (err) {
+      console.log(err)
+      next(err)
+    } 
+    res.send(result)
+  })
+})
+
+
+// delete all rows from transactions
+app.delete('/delete_all',(req,res)=>{
+
+  // define query
+  const sql =  `DELETE FROM transactions`
+  
+  connection.query(sql, (err, result, next) => {
+    if (err) {
+      console.log(err)   
+      next(err)
+    } 
+  })   
 })
 
 

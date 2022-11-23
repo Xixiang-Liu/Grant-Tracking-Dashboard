@@ -38,7 +38,9 @@ export const Upload = () => {
           setFile(inputFile);
       }
   };
+
   const handleParse = () => {
+       //!!!!!!!!CHANGE TO API PASSING CSV FILE TO DB!!!!
        
       // If user clicks the parse button without
       // a file we show a error
@@ -51,40 +53,40 @@ export const Upload = () => {
       // Event listener on reader when the file
       // loads, we parse it and set the data.
       reader.onload = async ({ target }) => {
-        const csv = Papa.parse(target.result, { encoding: "utf-8", header: true, skipEmptyLines: true
-      });
-        const parsedData = csv?.data;
-        const columns = Object.keys(parsedData[0]);
-        console.log(columns, parsedData)
-        const postReqs = []
-        parsedData.forEach(element => {
-          console.log({element})
-            const item = handleInsertDB({
-              date: element.Date, 
-              vendor: element.Vendor, 
-              amount: element.Amount, 
-              category: element.Category, 
-              account: element.Account, 
-              program: element.Program, 
-              'account_group': element['Account Group'],
-              budget: element.Budget, 
-              description: element.Description
-          })
-          postReqs.push(item)
-      });
-      Promise.all([postReqs]).then(() => {
-          alert('Uploaded successfully!')
-      }).catch(err => {
-          alert('Failed to uploaded!')
-      })
-      // setData(columns);
-    };
-    reader.readAsText(file);
-};
+          const csv = Papa.parse(target.result, { encoding: "utf-8", header: true, skipEmptyLines: true
+        });
+          const parsedData = csv?.data;
+          const columns = Object.keys(parsedData[0]);
+          console.log(columns, parsedData)
+          const postReqs = []
+          parsedData.forEach(element => {
+            console.log({element})
+              const item = handleInsertDB({
+                date: element.Date, 
+                vendor: element.Vendor, 
+                amount: element.Amount, 
+                category: element.Category, 
+                account: element.Account, 
+                program: element.Program, 
+                'account_group': element['Account Group'],
+                budget: element.Budget || -1, 
+                description: element.Description
+            })
+            postReqs.push(item)
+        });
+        Promise.all([postReqs]).then(() => {
+            alert('Uploaded successfully!')
+        }).catch(err => {
+            alert('Failed to uploaded!')
+        })
+        // setData(columns);
+      };
+      reader.readAsText(file);
+  };
 
   return (
-      <div>
-          <label htmlFor="csvInput" style={{ display: "block" }}>
+      <div style={{ marginTop: "3rem" }}>
+          <label htmlFor="csvInput" style={{ marginTop: "1rem", display: "block" }}>
               Enter CSV File
           </label>
           <input
@@ -95,7 +97,7 @@ export const Upload = () => {
               style={{marginTop: "1rem"}}
           />
           <div>
-          <button style={{ marginTop: "2rem", width: 100, height: 40 }} onClick={handleParse}>Upload</button>
+              <button style={{ marginTop: "2rem", width: 100, height: 40 }} onClick={handleParse}>Upload</button>
           </div>
           <div style={{ marginTop: "3rem" }}>
               {error ? error : data.map((col,
