@@ -3,35 +3,32 @@ import { nanoid } from "nanoid";
 import data from "../mock-data.json";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
-import { handleQueryDB, handleInsertDB } from '../util/DataHelper'
-
+import { handleQueryDB, handleInsertDB, handleUpdate, handleDelete, handleFilter } from '../util/DataHelper'
+const emptyData = {
+  date: "",
+  vendor: "",
+  amount: "",
+  category: "",
+  account: "",
+  program: "",
+  account_group: "",
+  budget:"",
+  description:"",
+}
+const emptyFilterData = {
+  account_filter: "",
+  program_filter: "",
+  account_group_filter: ""
+}
 export const Edit = () => {
   const [records, setRecords] = useState(data);
-  const [addFormData, setAddFormData] = useState({
-    date: "",
-    vendor: "",
-    amount: "",
-    category: "",
-    account: "",
-    program: "",
-    account_group: "",
-    budget:"",
-    description:"",
-  });
+  const [addFormData, setAddFormData] = useState(emptyData);
 
-  const [editFormData, setEditFormData] = useState({
-    date: "",
-    vendor: "",
-    amount: "",
-    category: "",
-    account: "",
-    program: "",
-    account_group: "",
-    budget:"",
-    description:"",
-  });
+  const [editFormData, setEditFormData] = useState(emptyData);
 
   const [editRecordId, setEditRecordId] = useState(null);
+
+  const [filterData, setFilterData] = useState(emptyFilterData);
 
   const queryData = async () => {
     try {
@@ -72,27 +69,36 @@ export const Edit = () => {
     setEditFormData(newFormData);
   };
 
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
+  const handleAddFormSubmit = async (event) => {
+    try {
+      event.preventDefault();
 
-    const newRecord = {
-      id: nanoid(),
-      date: addFormData.date,
-      vendor: addFormData.vendor,
-      amount: addFormData.amount,
-      category: addFormData.category,
-      account: addFormData.account,
-      program: addFormData.program,
-      account_group: addFormData.account_group,
-      budget: addFormData.budget,
-      description: addFormData.description,
-    };
+      const newRecord = {
+        id: nanoid(),
+        date: addFormData.date,
+        vendor: addFormData.vendor,
+        amount: addFormData.amount,
+        category: addFormData.category,
+        account: addFormData.account,
+        program: addFormData.program,
+        account_group: addFormData.account_group,
+        budget: addFormData.budget,
+        description: addFormData.description,
+      };
 
-    const newRecords = [...records, newRecord];
-    setRecords(newRecords);
+      const newRecords = [...records, newRecord];
+      const res = await handleInsertDB(newRecord)
+      if (res?.status === 200) {
+        alert('Added successfully!')
+      }
+      setRecords(newRecords);
+    } catch(e) {
+      console.error(e, handleAddFormSubmit.name)
+    }
+
   };
 
-  const handleEditFormSubmit = (event) => {
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
 
     const editedRecord = {
@@ -113,7 +119,7 @@ export const Edit = () => {
     const index = records.findIndex((record) => record.id === editRecordId);
 
     newRecords[index] = editedRecord;
-
+    await handleUpdate(editedRecord)
     setRecords(newRecords);
     setEditRecordId(null);
   };
@@ -141,55 +147,42 @@ export const Edit = () => {
     setEditRecordId(null);
   };
 
-  const handleDeleteClick = (recordId) => {
+  const handleDeleteClick = async (recordId) => {
     const newRecords = [...records];
 
     const index = records.findIndex((record) => record.id === recordId);
 
+    await handleDelete(recordId)
     newRecords.splice(index, 1);
 
     setRecords(newRecords);
   };
 
+  const handleFilterChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+    const newFilterData = { ...filterData };
+    newFilterData[fieldName] = fieldValue;
+    setFilterData(newFilterData);
+  }
+
+  const handleFilterClick = async () => {
+    const account = filterData.account_filter
+    const program = filterData.program_filter
+    const accountGroup = filterData.account_group_filter
+    const res = await handleFilter(account, program, accountGroup)
+    console.log({res}, 'filter')
+    setRecords(res)
+  }
+
+  const handleResetClick = async () => {
+    setFilterData(emptyFilterData)
+    queryData()
+  }
+
   return (
     <div className="app-container">
-      <form onSubmit={handleEditFormSubmit}>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Vendor</th>
-              <th>Amount</th>
-              <th>Categroy</th>
-              <th>Account</th>
-              <th>Program</th>
-              <th>Account Group</th>
-              <th>Budget</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record) => (
-              <Fragment>
-                {editRecordId === record.id ? (
-                  <EditableRow
-                    editFormData={editFormData}
-                    handleEditFormChange={handleEditFormChange}
-                    handleCancelClick={handleCancelClick}
-                  />
-                ) : (
-                  <ReadOnlyRow
-                    record={record}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
-                  />
-                )}
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
-      </form>
 
       <h2>Add a Record</h2>
       <form onSubmit={handleAddFormSubmit}>
@@ -255,7 +248,72 @@ export const Edit = () => {
           placeholder="Enter description..."
           onChange={handleAddFormChange}
         />
-        <button type="submit">Add</button>
+        <button style={{width: '100px', marginLeft: '20px'}} type="submit">Add</button>
+      </form>
+
+      <div style={{marginTop: '3rem'}}>
+        <h2>Filter</h2>
+        <input 
+          type = "text"
+          name = "account_filter"
+          placeholder="Enter an account to filter"
+          onChange={handleFilterChange}
+          value={filterData.account_filter}
+        />
+        <input 
+          type = "text"
+          name = "program_filter"
+          placeholder="Enter an program to filter"
+          onChange={handleFilterChange}
+          value={filterData.program_filter}
+        />
+        <input 
+          type = "text"
+          name = "account_group_filter"
+          placeholder="Enter an account group to filter"
+          onChange={handleFilterChange}
+          value={filterData.account_group_filter}
+        />
+        <button style={{width: '100px', marginLeft: '20px'}} onClick={handleFilterClick}>Filter</button>
+        <button style={{width: '100px', marginLeft: '10px'}} onClick={handleResetClick}>Reset</button>
+      </div>
+
+      <form style={{marginTop: '2rem'}} onSubmit={handleEditFormSubmit}>
+        <table>
+          <thead>
+            <tr>
+              <th style={{border: '1px solid #000'}}>Date</th>
+              <th style={{border: '1px solid #000'}}>Vendor</th>
+              <th style={{border: '1px solid #000'}}>Amount</th>
+              <th style={{border: '1px solid #000'}}>Category</th>
+              <th style={{border: '1px solid #000'}}>Account</th>
+              <th style={{border: '1px solid #000'}}>Program</th>
+              <th style={{border: '1px solid #000'}}>Account Group</th>
+              <th style={{border: '1px solid #000'}}>Budget</th>
+              <th style={{border: '1px solid #000'}}>Description</th>
+              <th style={{border: '1px solid #000'}}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {records.map((record) => (
+              <Fragment>
+                {editRecordId === record.id ? (
+                  <EditableRow
+                    editFormData={editFormData}
+                    handleEditFormChange={handleEditFormChange}
+                    handleCancelClick={handleCancelClick}
+                  />
+                ) : (
+                  <ReadOnlyRow
+                    record={record}
+                    handleEditClick={handleEditClick}
+                    handleDeleteClick={handleDeleteClick}
+                  />
+                )}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
       </form>
     </div>
   );
