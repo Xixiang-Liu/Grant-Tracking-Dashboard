@@ -13,9 +13,8 @@ export const Budget = () => {
     const queryData = async () => {
         try {
             const result = await handleQueryDB()
-            console.log(result.data, 333)
             const tempPrograms = []
-            const filteredData = result.data.filter(item => item.date)
+            const filteredData = result?.data?.filter(item => item.date)
             filteredData.forEach(item => {
                 if (!tempPrograms.includes(item.program)) {
                     tempPrograms.push(item.program)
@@ -23,8 +22,8 @@ export const Budget = () => {
             })
             setSelectedProgram(tempPrograms[0])
             setPrograms(tempPrograms)
-            console.log({tempPrograms})
             setRecords(filteredData)
+            setBudgetRecords(filteredData)
         } catch(e) {
             console.error(e)
         }
@@ -37,7 +36,6 @@ export const Budget = () => {
     const handleQueryClick = () => {
         const currentProgram = []
         records.forEach(item => {
-            console.log(new Date(item.date).toLocaleString(), endDate, new Date(item.date).toLocaleString() <= endDate)
             if (new Date(item.date) >= new Date(startDate) &&
             new Date(item.date) <= new Date(endDate) &&
             selectedProgram === item.program
@@ -46,7 +44,6 @@ export const Budget = () => {
             }
         })  
         setBudgetRecords(currentProgram)
-        console.log({startDate, endDate, selectedProgram})
     }
 
     return (
@@ -56,32 +53,44 @@ export const Budget = () => {
             marginTop: '2rem'
         }}>
             <h2>Budget</h2>
-            <div>
-                <input
-                    type="date"
-                    name="startDate"
-                    placeholder="mm/dd/yyyy"
-                    value={startDate}
-                    onChange={(event) => setStartDate(event.target.value)}
-                    />
-                <input
-                    type="date"
-                    name="endDate"
-                    placeholder="mm/dd/yyyy"
-                    value={endDate}
-                    onChange={(event) => setEndDate(event.target.value)}
-                    />
-                <select 
-                    onChange={(event) => setSelectedProgram(event.target.value)}
-                    value={selectedProgram}
-                >
-                    {
-                        programs.map(program => (
-                            <option value={program}>{program}</option>
-                        ))
-                    }
-                </select>
-                <button style={{width: '100px', marginLeft: '20px'}} onClick={handleQueryClick}>Query</button>
+            <div style={{ display: 'flex', flexDirection: 'row'}}>
+                <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '100px', marginRight: 10}}>
+                    <label>Start Date</label>
+                    <input
+                        type="date"
+                        name="startDate"
+                        placeholder="mm/dd/yyyy"
+                        value={startDate}
+                        onChange={(event) => setStartDate(event.target.value)}
+                        />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '100px', marginRight: 10}}>
+                    <label>End Date</label>
+                    <input
+                        type="date"
+                        name="endDate"
+                        placeholder="mm/dd/yyyy"
+                        value={endDate}
+                        onChange={(event) => setEndDate(event.target.value)}
+                        />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px'}}>
+
+                    <label>Program</label>
+                    <select 
+                        style={{ height: 22 }}
+                        onChange={(event) => setSelectedProgram(event.target.value)}
+                        value={selectedProgram}
+                    >
+                        {
+                            programs.map(program => (
+                                <option value={program}>{program}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <button style={{width: '100px', marginLeft: '20px', marginTop: 21}} onClick={handleQueryClick}>Query</button>
             </div>
             <div style={{ marginTop: '1rem' }}>
             
