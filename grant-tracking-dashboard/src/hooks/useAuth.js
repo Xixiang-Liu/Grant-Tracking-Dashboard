@@ -4,13 +4,22 @@ import { useLocalStorage } from "./useLocalStorage";
 
 const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const [user, setUser] = useLocalStorage("user",null);
+
   const navigate = useNavigate();
 
   const login = async (data) => {
+    
+    if(data["email"] === "523"&& data["password"]==="523"){
     setUser(data);
     navigate("/dashboard/profile", { replace: true });
+    }
+    else{
+        setUser(null);
+        navigate("/", { replace: true });
+    }
   };
 
   const logout = () => {
