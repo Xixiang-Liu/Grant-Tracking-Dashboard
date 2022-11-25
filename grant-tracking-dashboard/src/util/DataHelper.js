@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const BASE_SERVER_URL = 'http://localhost:3001/'
+export const BASE_SERVER_URL = 'https://unrivaled-llama-9b0278.netlify.app/'
 
 export const handleInsertDB = (params) => {
   return new Promise((resolve, reject) => {
