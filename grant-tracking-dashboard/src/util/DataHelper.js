@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const BASE_SERVER_URL = window.location.origin + '/'
+export const BASE_SERVER_URL = 'http://localhost:3001/'
 
 export const handleInsertDB = (params) => {
   return new Promise((resolve, reject) => {
