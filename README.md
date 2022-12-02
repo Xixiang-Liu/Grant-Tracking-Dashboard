@@ -50,9 +50,9 @@ You may also see any lint errors in the console.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### How to use the website
+## How to use the website
 
-## Upload
+### Upload
 * The user will be able to upload a csv file in the upload page.
 
 ###  Iomprtant Note: 
