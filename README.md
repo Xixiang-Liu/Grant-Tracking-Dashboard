@@ -19,24 +19,24 @@ In the past, our client used Excel spreadsheet and Quickbooks to track its progr
 
 ## How to start
 * Make sure you have Node.js installed in your machine. (https://nodejs.org/en/download/)
-* Open a terminal
+* Open a terminal\
 &emsp; 1. In mac, you can use the Terminal app.\
 &emsp; 2. In window, you can use the Command Prompt. Press Win + R to open the Run box, then type "cmd" and hit Enter to open it.\
 &emsp; 3. You can also use terminal in Visual Stuido code.
 
 * Go to the location where your Grant-Tracking-Dashboard file is located using `cd` 
 * Go to project directory by runing: `cd grant-tracking-dashboard`
-* Then, in the project directory run the following command:
-###  `npm start`
+* Then, in the project directory run the following command:\
+  `npm start`
 This command should automatically open the app in your browser.\
 If not, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 You may also see any lint errors in the console.
 
 * open another terminal (don't kill the first one)
-* Go to project directory again by runing:
-###  `cd grant-tracking-dashboard`
-* Connect to database by running:
-###  `node server.js`
+* Go to project directory again by runing:\
+`cd grant-tracking-dashboard`
+* Connect to database by running:\
+ `node server.js`
 * The app should be set up at this point.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -44,6 +44,7 @@ You may also see any lint errors in the console.
 
 * If an error of “Module not found" displays in the browser, run the follwing code with the missing module. \
   For example, if the error message says: "`Module not found: Error: Can't resolve '@mui/material/Box' in xxxxxxxx`\
+  This error message implies that you haven't install the module `@mui/material/Box`
   Then run the following command: ` npm install @mui/material/Box `  
   You can always Google the error message and check which package should be installed.
 
