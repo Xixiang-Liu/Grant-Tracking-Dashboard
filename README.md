@@ -49,3 +49,17 @@ You may also see any lint errors in the console.
   You can always Google the error message and check which package should be installed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### How to use the website
+
+## Upload
+* The user will be able to upload a csv file in the upload page.
+
+###  Iomprtant Note: 
+* Only csv files will be accepted 
+* The date format must be `mm/dd/yyyy`
+* The symbol `•` will **NOT** be accept, use `-` instead  
+
+
+
+
