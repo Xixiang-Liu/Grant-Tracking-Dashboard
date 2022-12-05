@@ -22,7 +22,7 @@ In the past, our client used Excel spreadsheet and Quickbooks to track its progr
 * Make sure you have Node.js installed in your machine. (https://nodejs.org/en/download/)
 * Open a terminal\
 &emsp; 1. In mac, you can use the Terminal app.\
-&emsp; 2. In window, you can use the Command Prompt. Press Win + R to open the Run box, then type "cmd" and hit Enter to open it.\
+&emsp; 2. In window, you can also use the built in Terminal App (for Windows 10 and later) . \
 &emsp; 3. You can also use terminal in Visual Stuido code.
 
 * Go to the location where your Grant-Tracking-Dashboard file is located using `cd` 
