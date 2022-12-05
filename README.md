@@ -14,6 +14,7 @@ In the past, our client used Excel spreadsheet and Quickbooks to track its progr
 * This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 * MySQL 
 * Node.js 
+* PlanetScale
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -47,6 +48,10 @@ You may also see any lint errors in the console.
   This error message implies that you haven't install the module `@mui/material/Box`
   Then run the following command: ` npm install @mui/material/Box `  
   You can always Google the error message and check which package should be installed.
+  
+* The database is hosted by PlanetScale and is on the free plan. So the database will enter 'sleep' mode. All data will be backed up and stored, but you will not be able to connect to the database. Make sure use the app at least once 7 days. \
+  If the database is in sleep mode, you can wake it by going to PlanetScale dashboard.
+  Check https://planetscale.com/docs/concepts/database-sleeping for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
