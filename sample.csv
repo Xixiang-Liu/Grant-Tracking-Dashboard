@@ -1,0 +1,8 @@
+Date,Vendor,Amount,Category,Account,Program,Account Group,Budget,Description
+2022/12/21,vendor 1,2500, REVENUE ,4000 - Individual Donations,program 1,4xxx - Contributions,122000, Prime fee
+2022/11/21,vendor 2,250, REVENUE ,4000 - Individual Donations,program 2,4xxx - Contributions,122000, Prime fee 
+2021/1/24,vendor 3,1387.08, EXPENSE ,7070 - FICA Taxes,program 3,70xx - Personnel Expenses,4350,Description 3
+2021/12/17,vendor 4,1250, REVENUE ,4500 - Corporate & Foundation Grants,program 4,4xxx - Contributions,122000,Description 4
+2020/1/20,vendor 3,523523,REVENUE,4501 - Corporate & Foundation Grants,program 3,4xxx - Contributions,1220,Description 4
+2022/1/24,vendor 5,4342,EXPENSE,4501 - Corporate & Foundation Grants,program 4,4xxx - Contributions,10303,Description 2
+2020/1/25,vendor 5,23422,EXPENSE,7070 - FICA Taxes,program 3,70xx - Personnel Expenses,23423,
