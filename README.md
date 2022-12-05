@@ -27,17 +27,15 @@ In the past, our client used Excel spreadsheet and Quickbooks to track its progr
 
 * Go to the location where your Grant-Tracking-Dashboard file is located using `cd` 
 * Go to project directory by runing: `cd grant-tracking-dashboard`
-* Then, in the project directory run the following command:\
-  `npm start`
+* Then, in the project directory run the following command to cennect to database\: 
+ `node server.js`
+
+* Open another terminal (don't kill the first one) and run the following command: \
+ `npm start`\
 This command should automatically open the app in your browser.\
-If not, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+If not, open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
 You may also see any lint errors in the console.
 
-* open another terminal (don't kill the first one)
-* Go to project directory again by runing:\
-`cd grant-tracking-dashboard`
-* Connect to database by running:\
- `node server.js`
 * The app should be set up at this point.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
