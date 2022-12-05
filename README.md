@@ -60,7 +60,7 @@ You may also see any lint errors in the console.
 ### Upload
 * The user will be able to upload a csv file in the upload page.
 
-###  Iomprtant Note: 
+###  Important Note: 
 * Only csv files will be accepted 
 * The date format must be `mm/dd/yyyy`
 * The symbol `•` will **NOT** be accept, use `-` instead  
