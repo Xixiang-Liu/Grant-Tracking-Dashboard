@@ -55,14 +55,26 @@ You may also see any lint errors in the console.
 
 ## How to use the website
 
-### Upload
+### Upload Page
 * The user will be able to upload a csv file in the upload page.
 
-###  Important Note: 
+####  Important Note: 
 * Only csv files will be accepted 
 * The date format must be `mm/dd/yyyy`
-* The symbol `•` will **NOT** be accept, use `-` instead  
+* The symbol `•` will **NOT** be accept, use `-` instead 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+### Edit Page 
+* The user can enter single entry in the edit page
+* The user can edit and delete trasaction records in the edit page
+* The user can filter trasction records based on Account, Account Group, and Program 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Budget Page
+* Enter a start date, an end date, and a program, click Query button. 
+* It will show trasctions related in the selected time range. This allow user to compare program budget between years.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
