@@ -1,6 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { nanoid } from "nanoid";
-import data from "../mock-data.json";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 import { handleQueryDB, handleInsertDB, handleUpdate, handleDelete, handleFilter, handleDeleteAll } from '../util/DataHelper'
@@ -34,6 +33,8 @@ export const Edit = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const [editCategory, setEditCategory] = useState('');
+
+  const [totalAmount, setTotalAmount] = useState(0);
 
   
   const queryData = async () => {
@@ -178,12 +179,18 @@ export const Edit = () => {
     const program = filterData.program_filter
     const accountGroup = filterData.account_group_filter
     const res = await handleFilter(account, program, accountGroup)
+    let tempAmount = 0
+    res.forEach(item => {
+      tempAmount += parseFloat(item.amount || '0')
+    })
+    setTotalAmount(tempAmount.toFixed(2))
     setRecords(res)
   }
 
   const handleResetClick = async () => {
     setFilterData(emptyFilterData)
     queryData()
+    setTotalAmount(0)
   }
 
   const handleDeleteAllClick = async () => {
@@ -307,46 +314,49 @@ export const Edit = () => {
       </div>
 
       <form style={{marginTop: '2rem'}} onSubmit={handleEditFormSubmit}>
-        <table>
-          <thead>
-            <tr>
-              <th style={{border: '1px solid #000'}}>Date</th>
-              <th style={{border: '1px solid #000'}}>Vendor</th>
-              <th style={{border: '1px solid #000'}}>Amount</th>
-              <th style={{border: '1px solid #000'}}>Category</th>
-              <th style={{border: '1px solid #000'}}>Account</th>
-              <th style={{border: '1px solid #000'}}>Program</th>
-              <th style={{border: '1px solid #000'}}>Account Group</th>
-              <th style={{border: '1px solid #000'}}>Budget</th>
-              <th style={{border: '1px solid #000'}}>Description</th>
-              <th style={{border: '1px solid #000'}}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record) => (
-              <Fragment>
-                {editRecordId === record.id ? (
-                  <EditableRow
-                    key={record.id}
-                    editFormData={editFormData}
-                    handleEditFormChange={handleEditFormChange}
-                    handleCancelClick={handleCancelClick}
-                    categories={categories}
-                    setSelectedCategory={setEditCategory}
-                    editCategory={editCategory}
-                  />
-                ) : (
-                  <ReadOnlyRow
-                    key={'readOnly' + record.id}
-                    record={record}
-                    handleEditClick={handleEditClick}
-                    handleDeleteClick={handleDeleteClick}
-                  />
-                )}
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
+        {totalAmount > 0 && <h2>Total Amount: {totalAmount}</h2>}
+        {records?.length > 0 &&
+          <table>
+            <thead>
+              <tr>
+                <th style={{border: '1px solid #000'}}>Date</th>
+                <th style={{border: '1px solid #000'}}>Vendor</th>
+                <th style={{border: '1px solid #000'}}>Amount</th>
+                <th style={{border: '1px solid #000'}}>Category</th>
+                <th style={{border: '1px solid #000'}}>Account</th>
+                <th style={{border: '1px solid #000'}}>Program</th>
+                <th style={{border: '1px solid #000'}}>Account Group</th>
+                <th style={{border: '1px solid #000'}}>Budget</th>
+                <th style={{border: '1px solid #000'}}>Description</th>
+                <th style={{border: '1px solid #000'}}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {records.map((record) => (
+                <Fragment>
+                  {editRecordId === record.id ? (
+                    <EditableRow
+                      key={record.id}
+                      editFormData={editFormData}
+                      handleEditFormChange={handleEditFormChange}
+                      handleCancelClick={handleCancelClick}
+                      categories={categories}
+                      setSelectedCategory={setEditCategory}
+                      editCategory={editCategory}
+                    />
+                  ) : (
+                    <ReadOnlyRow
+                      key={'readOnly' + record.id}
+                      record={record}
+                      handleEditClick={handleEditClick}
+                      handleDeleteClick={handleDeleteClick}
+                    />
+                  )}
+                </Fragment>
+              ))}
+            </tbody>
+          </table>
+        }
       </form>
     </div>
   );
