@@ -71,6 +71,7 @@ You may also see any lint errors in the console.
 * The user can enter single entry in the edit page
 * The user can edit and delete trasaction records in the edit page
 * The user can filter trasction records based on Account, Account Group, and Program 
+* Total amount of filtered records will show.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
