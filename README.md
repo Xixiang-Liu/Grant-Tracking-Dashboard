@@ -27,6 +27,7 @@ In the past, our client used Excel spreadsheet and Quickbooks to track its progr
 
 * Go to the location where your Grant-Tracking-Dashboard file is located using `cd` 
 * Go to project directory by runing: `cd grant-tracking-dashboard`
+* If it's your first time runing this app in your machine, run `npm install` to install all required pacages, this procedures may take a long time.
 * Then, in the project directory run the following command to cennect to database\: 
  `node server.js`
 
