@@ -61,7 +61,7 @@ You may also see any lint errors in the console.
 
 ####  Important Note: 
 * Only csv files will be accepted 
-* The date format must be `mm/dd/yyyy`
+* The date format must be `yyyy/mm/dd`
 * The symbol `•` will **NOT** be accept, use `-` instead 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
